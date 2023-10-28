@@ -5,11 +5,17 @@ import {
   validateCaptcha,
 } from "react-simple-captcha";
 import { AuthContext } from "../../Provider/authProvider";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [disable, setDisable] = useState(true);
   const [check, setCheck] = useState("");
+  const [error,setError]=useState("")
 const {signIn}=useContext(AuthContext)
+let navigate = useNavigate();
+let location = useLocation();
+
+let from = location.state?.from?.pathname || "/";
   useEffect(() => {
     loadCaptchaEnginge(6);
   }, []);
@@ -23,10 +29,11 @@ const {signIn}=useContext(AuthContext)
     .then(result=>{
       const user = result.user;
       console.log(user)
+      navigate(from, { replace: true });
     })
     .catch(error=>{
       const errorMessage = error.message;
-      console.log(errorMessage)
+      setError(errorMessage)
     })
 
     }
@@ -46,6 +53,7 @@ const user_captcha_value=check
 
   return (
     <div className="hero min-h-screen bg-base-200">
+      
       <div className="hero-content flex-col lg:flex-row-reverse">
         <div className="text-center lg:text-left">
           <h1 className="text-5xl font-bold">Login now!</h1>
@@ -58,6 +66,7 @@ const user_captcha_value=check
         <div className="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
           <form onSubmit={handleClicked} className="card-body">
             <div className="form-control">
+              <p className="text-red-500 text-center">{error}</p>
               <label className="label">
                 <span className="label-text">Email</span>
               </label>
@@ -91,11 +100,12 @@ const user_captcha_value=check
             </div>
             <div className="relative">
               <input
+              onBlur={doCheck}
                 type="text"
                 className="input input-bordered"
                 onChange={(e) => setCheck(e.target.value)}
               ></input>
-              <button className="absolute left-36 btn-xs top-3 bg-green-900 text-white  btn "onClick={doCheck}>Check</button>
+              {/* <button className="absolute left-36 btn-xs top-3 bg-green-900 text-white  btn "onClick={doCheck}>Check</button> */}
             </div>
 
             <div className="form-control mt-6">

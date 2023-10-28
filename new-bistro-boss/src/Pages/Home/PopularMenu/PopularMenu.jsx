@@ -5,6 +5,7 @@ import Container from '../../../Shared/Container/Container';
 import { useMenu } from '../../../hooks/useMenu';
 import SectionTitle from '../../../component/SectionTitle';
 import { BallTriangle } from  'react-loader-spinner'
+import Practis from '../../../Component/Practis/Practis';
 
 
 const PopularMenu = () => {
@@ -43,6 +44,7 @@ const PopularMenu = () => {
             <div className='mx-auto w-56 mt-10'>
             <button className="btn  bg-base-300 border-t-0 border-x-0 border-b-4 border-yellow-600 text-yellow-600 ">View Full Menu</button>
             </div>
+            <Practis></Practis>
         </section>
         </Container>
     );
